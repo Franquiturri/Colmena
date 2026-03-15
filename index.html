@@ -134,6 +134,57 @@
     }
     .nav-cta:hover { transform: scale(1.04); }
 
+    /* ── BACKGROUND BOXES ── */
+    .boxes-container {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .boxes-inner {
+      position: absolute;
+      left: 10%;
+      top: -5%;
+      padding: 1rem;
+      display: flex;
+      transform: translate(-40%, -60%) skewX(-48deg) skewY(14deg) scale(0.675) translateZ(0);
+    }
+    .box-row {
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .box-cell {
+      width: 64px;
+      height: 32px;
+      border-right: 1px solid #334155;
+      border-bottom: 1px solid #334155;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .box-cell-icon {
+      position: absolute;
+      width: 40px;
+      height: 24px;
+      top: -14px;
+      left: -22px;
+      color: #334155;
+      pointer-events: none;
+    }
+    .boxes-overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--black);
+      z-index: 1;
+      pointer-events: none;
+      -webkit-mask-image: radial-gradient(ellipse at center, transparent 35%, black 75%);
+      mask-image: radial-gradient(ellipse at center, transparent 35%, black 75%);
+    }
+    .hero-bg-text { z-index: 2; }
+    .hero-tag, .hero-title, .hero-sub, .hero-scroll {
+      position: relative;
+      z-index: 2;
+    }
+
     /* ── HERO ── */
     #hero {
       min-height: 100vh;
@@ -715,7 +766,9 @@
 
   <!-- HERO -->
   <section id="hero">
-    <div class="hero-bg-text">COLMENA</div>
+    <div class="boxes-container"><div class="boxes-inner" id="boxesGrid"></div></div>
+    <div class="boxes-overlay"></div>
+
 
     <div class="hero-tag">Publicidad en Vía Pública — Argentina</div>
 
@@ -1021,6 +1074,45 @@
       ease: 'none',
       scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
     });
+
+    // ── BACKGROUND BOXES ──
+    (function () {
+      const grid = document.getElementById('boxesGrid');
+      if (!grid) return;
+
+      const ROWS = 150, COLS = 100;
+      const colors = [
+        'rgb(125,211,252)', 'rgb(249,168,212)', 'rgb(134,239,172)',
+        'rgb(253,224,71)',  'rgb(252,165,165)', 'rgb(216,180,254)',
+        'rgb(147,197,253)', 'rgb(165,180,252)', 'rgb(196,181,253)',
+      ];
+      const plusSVG = `<svg class="box-cell-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`;
+      const frag = document.createDocumentFragment();
+
+      for (let i = 0; i < ROWS; i++) {
+        const row = document.createElement('div');
+        row.className = 'box-row';
+        for (let j = 0; j < COLS; j++) {
+          const cell = document.createElement('div');
+          cell.className = 'box-cell';
+          if (i % 2 === 0 && j % 2 === 0) cell.innerHTML = plusSVG;
+          row.appendChild(cell);
+        }
+        frag.appendChild(row);
+      }
+      grid.appendChild(frag);
+
+      // Use elementsFromPoint to pierce through overlay/z-index layers
+      let activeCell = null;
+      document.addEventListener('mousemove', e => {
+        const all = document.elementsFromPoint(e.clientX, e.clientY);
+        const cell = all.find(el => el.classList.contains('box-cell')) || null;
+        if (cell === activeCell) return;
+        if (activeCell) activeCell.style.backgroundColor = '';
+        activeCell = cell;
+        if (cell) cell.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      });
+    })();
   </script>
 </body>
 </html>
