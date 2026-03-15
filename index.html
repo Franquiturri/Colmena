@@ -152,14 +152,18 @@
       display: flex;
       flex-direction: column;
       flex-shrink: 0;
+      margin-right: -27px;
+    }
+    .box-row:nth-child(even) {
+      margin-top: 26px;
     }
     .box-cell {
-      width: 64px;
-      height: 32px;
-      border-right: 1px solid #334155;
-      border-bottom: 1px solid #334155;
-      position: relative;
+      width: 110px;
+      height: 52px;
+      clip-path: polygon(25.62% 1.92%, 74.38% 1.92%, 99.09% 50%, 74.38% 98.08%, 25.62% 98.08%, 0.91% 50%);
+      background-color: rgba(51, 65, 85, 0.38);
       flex-shrink: 0;
+      margin-bottom: 0;
     }
     .box-cell-icon {
       position: absolute;
@@ -1086,7 +1090,6 @@
         'rgb(253,224,71)',  'rgb(252,165,165)', 'rgb(216,180,254)',
         'rgb(147,197,253)', 'rgb(165,180,252)', 'rgb(196,181,253)',
       ];
-      const plusSVG = `<svg class="box-cell-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6"/></svg>`;
       const frag = document.createDocumentFragment();
 
       for (let i = 0; i < ROWS; i++) {
@@ -1095,7 +1098,6 @@
         for (let j = 0; j < COLS; j++) {
           const cell = document.createElement('div');
           cell.className = 'box-cell';
-          if (i % 2 === 0 && j % 2 === 0) cell.innerHTML = plusSVG;
           row.appendChild(cell);
         }
         frag.appendChild(row);
