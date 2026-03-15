@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Colmena — Publicidad en Vía Pública</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    :root {
+      --green-dark: #00592B;
+      --green-neon: #1CE585;
+      --green-mid: #007A3D;
+      --off-white: #F0F4EE;
+      --black: #020E07;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: var(--green-dark);
+      color: var(--off-white);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── CURSOR ── */
+    .cursor {
+      position: fixed;
+      width: 12px; height: 12px;
+      background: var(--green-neon);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+      mix-blend-mode: difference;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 40px; height: 40px;
+      border: 1.5px solid var(--green-neon);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.15s ease;
+      mix-blend-mode: difference;
+    }
+    a:hover ~ .cursor, button:hover ~ .cursor { width: 20px; height: 20px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.5rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      mix-blend-mode: normal;
+    }
+    .nav-logo {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--green-neon);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--off-white); }
+    .logo-wrapper {
+      display: inline-flex;
+      align-items: center;
+      opacity: 0;
+      animation: logoEntrance 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards 0.4s;
+    }
+    .logo-img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      display: block;
+      filter: brightness(0) saturate(100%) invert(68%) sepia(67%) saturate(462%) hue-rotate(107deg) brightness(107%);
+      animation: slowRotate 28s linear infinite;
+    }
+    @keyframes logoEntrance {
+      from { opacity: 0; transform: scale(0.7) rotate(-30deg); }
+      to   { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+    @keyframes slowRotate {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--off-white);
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; color: var(--green-neon); }
+    .nav-cta {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green-dark);
+      background: var(--green-neon);
+      border: none;
+      padding: 0.65rem 1.4rem;
+      cursor: none;
+      text-decoration: none;
+      transition: transform 0.2s ease;
+    }
+    .nav-cta:hover { transform: scale(1.04); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 2rem 2.5rem 4rem;
+      position: relative;
+      overflow: hidden;
+      background: var(--black);
+    }
+    .hero-bg-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(120px, 18vw, 280px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--green-dark);
+      white-space: nowrap;
+      user-select: none;
+      pointer-events: none;
+      opacity: 0.35;
+    }
+    .hero-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--green-neon);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+    }
+    .hero-title {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(32px, 5.5vw, 88px);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      color: var(--off-white);
+      max-width: 900px;
+      overflow: hidden;
+    }
+    .hero-title-line { display: block; overflow: hidden; }
+    .hero-title-line span { display: block; transform: translateY(110%); }
+    .hero-title .accent { color: var(--green-neon); }
+    .hero-sub {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 3rem;
+      align-items: flex-end;
+    }
+    .hero-desc {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--off-white);
+      opacity: 0.65;
+      max-width: 320px;
+      opacity: 0;
+    }
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green-dark);
+      background: var(--green-neon);
+      padding: 1.1rem 2rem;
+      text-decoration: none;
+      cursor: none;
+      opacity: 0;
+      transition: transform 0.25s ease, gap 0.25s ease;
+      white-space: nowrap;
+    }
+    .hero-btn:hover { transform: scale(1.03); gap: 1.5rem; }
+    .hero-btn svg { width: 18px; height: 18px; }
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      right: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green-neon);
+      opacity: 0;
+    }
+    .hero-scroll-line {
+      width: 1px;
+      height: 60px;
+      background: var(--green-neon);
+      transform-origin: top;
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0% { transform: scaleY(0); opacity: 0; }
+      50% { transform: scaleY(1); opacity: 1; }
+      100% { transform: scaleY(1) translateY(100%); opacity: 0; }
+    }
+
+    /* ── TICKER ── */
+    .ticker-wrap {
+      background: var(--green-neon);
+      padding: 0.75rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .ticker-inner {
+      display: inline-flex;
+      gap: 0;
+      animation: ticker 18s linear infinite;
+    }
+    .ticker-inner span {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--green-dark);
+      padding: 0 2.5rem;
+    }
+    .ticker-inner .dot {
+      color: var(--green-dark);
+      opacity: 0.4;
+      padding: 0;
+    }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 8rem 2.5rem; }
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--green-neon);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(36px, 5.5vw, 80px);
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: var(--off-white);
+    }
+    .reveal { opacity: 0; transform: translateY(40px); }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--black);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .about-statement {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(28px, 4vw, 56px);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: var(--off-white);
+    }
+    .about-statement .neon { color: var(--green-neon); }
+    .about-right { display: flex; flex-direction: column; gap: 3rem; }
+    .about-text {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--off-white);
+      opacity: 0.65;
+      max-width: 420px;
+    }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .stat-card {
+      border: 1px solid rgba(28, 229, 133, 0.2);
+      padding: 1.5rem;
+    }
+    .stat-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--green-neon);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--off-white);
+      opacity: 0.5;
+      margin-top: 0.5rem;
+    }
+
+    /* ── SERVICIOS ── */
+    #servicios { background: var(--green-dark); }
+    .services-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 5rem;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border: 1px solid rgba(28, 229, 133, 0.15);
+    }
+    .service-card {
+      padding: 2.5rem;
+      border-right: 1px solid rgba(28, 229, 133, 0.15);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.35s ease;
+      cursor: none;
+    }
+    .service-card:last-child { border-right: none; }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--green-neon);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+      z-index: 0;
+    }
+    .service-card:hover::after { transform: scaleY(1); }
+    .service-card > * { position: relative; z-index: 1; }
+    .service-card:hover .service-num,
+    .service-card:hover .service-name,
+    .service-card:hover .service-desc { color: var(--green-dark); }
+    .service-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--green-neon);
+      transition: color 0.3s;
+      margin-bottom: 3rem;
+    }
+    .service-name {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      color: var(--off-white);
+      transition: color 0.3s;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+    .service-desc {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--off-white);
+      opacity: 0.55;
+      transition: color 0.3s, opacity 0.3s;
+    }
+    .service-card:hover .service-desc { opacity: 1; }
+
+    /* ── FORMATOS ── */
+    #formatos {
+      background: var(--black);
+      padding-bottom: 0;
+    }
+    .formatos-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: end;
+      margin-bottom: 5rem;
+    }
+    .formatos-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid rgba(28, 229, 133, 0.15);
+    }
+    .formato-item {
+      padding: 2rem 1.5rem;
+      border-right: 1px solid rgba(28, 229, 133, 0.15);
+      border-bottom: 1px solid rgba(28, 229, 133, 0.15);
+      transition: background 0.3s;
+      cursor: none;
+    }
+    .formato-item:last-child { border-right: none; }
+    .formato-item:hover { background: rgba(28, 229, 133, 0.06); }
+    .formato-icon {
+      font-size: 2rem;
+      margin-bottom: 1.25rem;
+      display: block;
+    }
+    .formato-name {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--off-white);
+      margin-bottom: 0.5rem;
+    }
+    .formato-desc {
+      font-size: 0.8rem;
+      line-height: 1.55;
+      color: var(--off-white);
+      opacity: 0.45;
+    }
+
+    /* ── MARQUEE SECTION ── */
+    .marquee-section {
+      background: var(--green-neon);
+      padding: 5rem 0;
+      overflow: hidden;
+    }
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      animation: marquee 20s linear infinite;
+      width: max-content;
+    }
+    .marquee-item {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(40px, 6vw, 80px);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      color: var(--green-dark);
+      padding: 0 2rem;
+      white-space: nowrap;
+      line-height: 1;
+    }
+    .marquee-sep {
+      font-size: clamp(40px, 6vw, 80px);
+      color: var(--black);
+      opacity: 0.25;
+      padding: 0 0.5rem;
+      line-height: 1;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── PROCESO ── */
+    #proceso { background: var(--green-dark); }
+    .proceso-steps {
+      margin-top: 4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-top: 1px solid rgba(28, 229, 133, 0.15);
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 80px 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+      padding: 2.5rem 0;
+      border-bottom: 1px solid rgba(28, 229, 133, 0.15);
+      transition: background 0.25s;
+      cursor: none;
+    }
+    .step:hover { background: rgba(28, 229, 133, 0.04); padding-left: 1rem; }
+    .step-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--green-neon);
+      letter-spacing: 0.15em;
+    }
+    .step-name {
+      font-family: 'Space Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      color: var(--off-white);
+    }
+    .step-desc {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: var(--off-white);
+      opacity: 0.5;
+    }
+
+    /* ── CTA SECTION ── */
+    #contacto {
+      background: var(--black);
+      text-align: center;
+      padding: 10rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-bg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(80px, 15vw, 220px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--green-dark);
+      user-select: none;
+      pointer-events: none;
+      opacity: 0.18;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .cta-content { position: relative; z-index: 1; }
+    .cta-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--green-neon);
+      margin-bottom: 1.5rem;
+    }
+    .cta-title {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(40px, 7vw, 100px);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: -0.03em;
+      color: var(--off-white);
+      line-height: 0.95;
+      margin-bottom: 3rem;
+    }
+    .cta-title .neon { color: var(--green-neon); }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--green-dark);
+      background: var(--green-neon);
+      padding: 1.4rem 3rem;
+      text-decoration: none;
+      cursor: none;
+      transition: transform 0.25s ease, gap 0.25s ease;
+    }
+    .cta-btn:hover { transform: scale(1.04); gap: 1.5rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--green-dark);
+      padding: 4rem 2.5rem 2rem;
+      border-top: 1px solid rgba(28, 229, 133, 0.15);
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 4rem;
+    }
+    .footer-brand {
+      font-family: 'Space Mono', monospace;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: var(--green-neon);
+    }
+    .footer-brand span { color: var(--off-white); opacity: 0.4; }
+    .footer-tagline {
+      font-size: 0.85rem;
+      color: var(--off-white);
+      opacity: 0.4;
+      margin-top: 0.5rem;
+    }
+    .footer-nav {
+      display: grid;
+      grid-template-columns: repeat(3, 140px);
+      gap: 0.5rem 3rem;
+    }
+    .footer-nav a {
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--off-white);
+      opacity: 0.5;
+      text-decoration: none;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .footer-nav a:hover { opacity: 1; color: var(--green-neon); }
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(28, 229, 133, 0.1);
+    }
+    .footer-copy {
+      font-size: 0.75rem;
+      color: var(--off-white);
+      opacity: 0.3;
+      letter-spacing: 0.05em;
+    }
+    .footer-social {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .footer-social a {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--off-white);
+      opacity: 0.4;
+      text-decoration: none;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .footer-social a:hover { opacity: 1; color: var(--green-neon); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.25rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 5rem 1.5rem; }
+      #about { grid-template-columns: 1fr; gap: 3rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .service-card { border-right: none; border-bottom: 1px solid rgba(28,229,133,0.15); }
+      .formatos-intro { grid-template-columns: 1fr; }
+      .formatos-list { grid-template-columns: 1fr 1fr; }
+      .step { grid-template-columns: 60px 1fr; }
+      .step-desc { display: none; }
+      .footer-top { flex-direction: column; gap: 2.5rem; }
+      .footer-nav { grid-template-columns: repeat(2, 1fr); }
+      .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+      .services-header { flex-direction: column; gap: 1.5rem; align-items: flex-start; }
+    }
+    @media (max-width: 600px) {
+      .hero-title { font-size: clamp(26px, 8vw, 48px); }
+      .hero-sub { flex-direction: column; gap: 1.5rem; }
+      .formatos-list { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">
+      <span class="logo-wrapper">
+        <img src="Assets/Logo TEMP (pedro e ivan).png" alt="Colmena" class="logo-img">
+      </span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">Nosotros</a></li>
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#formatos">Formatos</a></li>
+      <li><a href="#proceso">Proceso</a></li>
+    </ul>
+    <a href="#contacto" class="nav-cta">Cotizá tu campaña →</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg-text">COLMENA</div>
+
+    <div class="hero-tag">Publicidad en Vía Pública — Argentina</div>
+
+    <h1 class="hero-title">
+      <span class="hero-title-line"><span>Tu marca</span></span>
+      <span class="hero-title-line"><span>en el <span class="accent">corazón</span></span></span>
+      <span class="hero-title-line"><span>de la ciudad.</span></span>
+    </h1>
+
+    <div class="hero-sub">
+      <p class="hero-desc">
+        Transformamos espacios urbanos en experiencias de marca. Vallas, carteles, mobiliario y pantallas LED que impactan, conectan y convierten.
+      </p>
+      <a href="#contacto" class="hero-btn">
+        Iniciá tu campaña
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      <span>scroll</span>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker-inner">
+      <span>Vallas Publicitarias</span><span class="dot">✦</span>
+      <span>Carteles LED</span><span class="dot">✦</span>
+      <span>Mobiliario Urbano</span><span class="dot">✦</span>
+      <span>Pantallas Digitales</span><span class="dot">✦</span>
+      <span>Medianeras</span><span class="dot">✦</span>
+      <span>Refugios de Colectivo</span><span class="dot">✦</span>
+      <span>Vallas Publicitarias</span><span class="dot">✦</span>
+      <span>Carteles LED</span><span class="dot">✦</span>
+      <span>Mobiliario Urbano</span><span class="dot">✦</span>
+      <span>Pantallas Digitales</span><span class="dot">✦</span>
+      <span>Medianeras</span><span class="dot">✦</span>
+      <span>Refugios de Colectivo</span><span class="dot">✦</span>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="reveal">
+      <p class="about-statement">
+        Conectamos marcas con <span class="neon">millones</span> de personas cada día.
+      </p>
+    </div>
+    <div class="about-right">
+      <p class="about-text reveal">
+        En Colmena diseñamos, producimos e instalamos soluciones de publicidad exterior que generan impacto real. Trabajamos con marcas que quieren estar donde está la gente.
+      </p>
+      <div class="stats-grid">
+        <div class="stat-card reveal">
+          <div class="stat-num">500+</div>
+          <div class="stat-label">Espacios activos</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-num">12M</div>
+          <div class="stat-label">Impactos diarios</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-num">8</div>
+          <div class="stat-label">Ciudades</div>
+        </div>
+        <div class="stat-card reveal">
+          <div class="stat-num">300+</div>
+          <div class="stat-label">Campañas realizadas</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="servicios">
+    <div class="services-header">
+      <div>
+        <p class="section-label reveal">01 — Servicios</p>
+        <h2 class="section-title reveal">Lo que<br/>hacemos.</h2>
+      </div>
+      <p class="about-text reveal" style="max-width:280px">
+        Soluciones integrales de comunicación exterior para cada tipo de campaña y presupuesto.
+      </p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-num">01</div>
+        <div class="service-name">Planificación<br/>Estratégica</div>
+        <div class="service-desc">Analizamos tu audiencia, zona de influencia y objetivos para armar el plan de medios exterior más efectivo.</div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-num">02</div>
+        <div class="service-name">Producción<br/>Gráfica</div>
+        <div class="service-desc">Diseño, impresión y terminaciones de alta calidad para vallas, lonas y viniles con máxima visibilidad.</div>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-num">03</div>
+        <div class="service-name">Gestión &<br/>Monitoreo</div>
+        <div class="service-desc">Instalación, mantenimiento y reporte de rendimiento de cada soporte durante toda la campaña.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMATOS -->
+  <section id="formatos">
+    <div class="formatos-intro">
+      <div>
+        <p class="section-label reveal">02 — Formatos</p>
+        <h2 class="section-title reveal">Nuestros<br/>soportes.</h2>
+      </div>
+      <p class="about-text reveal" style="max-width:400px; opacity:0.6">
+        Contamos con una amplia red de soportes en puntos estratégicos de las principales ciudades del país.
+      </p>
+    </div>
+    <div class="formatos-list">
+      <div class="formato-item reveal">
+        <span class="formato-icon">🪧</span>
+        <div class="formato-name">Vallas</div>
+        <div class="formato-desc">Grandes formatos en rutas, accesos y avenidas principales. Máxima exposición.</div>
+      </div>
+      <div class="formato-item reveal">
+        <span class="formato-icon">💡</span>
+        <div class="formato-name">Pantallas LED</div>
+        <div class="formato-desc">Displays digitales con contenido dinámico en tiempo real. Alto impacto visual.</div>
+      </div>
+      <div class="formato-item reveal">
+        <span class="formato-icon">🏙️</span>
+        <div class="formato-name">Medianeras</div>
+        <div class="formato-desc">Superficies de gran tamaño en edificios céntricos. Presencia urbana dominante.</div>
+      </div>
+      <div class="formato-item reveal">
+        <span class="formato-icon">🚏</span>
+        <div class="formato-name">Refugios</div>
+        <div class="formato-desc">Mobiliario urbano de alto tráfico peatonal. Contacto directo con el consumidor.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-section">
+    <div class="marquee-track">
+      <span class="marquee-item">Impacto Real</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-item">Ciudad Viva</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-item">Tu Marca Afuera</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-item">24/7 Sin Parar</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-item">Impacto Real</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-item">Ciudad Viva</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-item">Tu Marca Afuera</span>
+      <span class="marquee-sep">✦</span>
+      <span class="marquee-item">24/7 Sin Parar</span>
+      <span class="marquee-sep">✦</span>
+    </div>
+  </div>
+
+  <!-- PROCESO -->
+  <section id="proceso">
+    <p class="section-label reveal">03 — Proceso</p>
+    <h2 class="section-title reveal">Cómo<br/>trabajamos.</h2>
+
+    <div class="proceso-steps">
+      <div class="step reveal">
+        <span class="step-num">01</span>
+        <span class="step-name">Brief</span>
+        <span class="step-desc">Entendemos tu marca, objetivos, presupuesto y plazo para diseñar la estrategia adecuada.</span>
+      </div>
+      <div class="step reveal">
+        <span class="step-num">02</span>
+        <span class="step-name">Propuesta</span>
+        <span class="step-desc">Seleccionamos los espacios óptimos y te presentamos un plan de medios con mapas y proyecciones.</span>
+      </div>
+      <div class="step reveal">
+        <span class="step-num">03</span>
+        <span class="step-name">Producción</span>
+        <span class="step-desc">Gestionamos el diseño final, impresión y preparación de todos los materiales gráficos.</span>
+      </div>
+      <div class="step reveal">
+        <span class="step-num">04</span>
+        <span class="step-name">Instalación</span>
+        <span class="step-desc">Nuestro equipo técnico instala y verifica cada soporte con estándares de calidad y seguridad.</span>
+      </div>
+      <div class="step reveal">
+        <span class="step-num">05</span>
+        <span class="step-name">Reporte</span>
+        <span class="step-desc">Seguimiento fotográfico y de rendimiento durante toda la campaña con informes periódicos.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="cta-bg">Colmena</div>
+    <div class="cta-content">
+      <p class="cta-label reveal">¿Listo para impactar?</p>
+      <h2 class="cta-title reveal">
+        Llevá tu marca<br/>a la <span class="neon">ciudad.</span>
+      </h2>
+      <a href="mailto:hola@colmena.com.ar" class="cta-btn reveal">
+        Cotizá tu campaña
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">Colmena<span>🐝</span></div>
+        <div class="footer-tagline">Publicidad en Vía Pública — Argentina</div>
+      </div>
+      <div class="footer-nav">
+        <a href="#about">Nosotros</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#formatos">Formatos</a>
+        <a href="#proceso">Proceso</a>
+        <a href="#contacto">Contacto</a>
+        <a href="#">Trabaja con nosotros</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copy">© 2026 Colmena. Todos los derechos reservados.</span>
+      <div class="footer-social">
+        <a href="#">Instagram</a>
+        <a href="#">LinkedIn</a>
+        <a href="#">WhatsApp</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
+
+    // ── CURSOR ──
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    gsap.ticker.add(() => {
+      cursor.style.left = mx + 'px';
+      cursor.style.top  = my + 'px';
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+    });
+
+    // ── HERO ENTRANCE ──
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    tl.to('.hero-tag',  { opacity: 1, y: 0, duration: 0.8, delay: 0.3 })
+      .to('.hero-title-line span', {
+        y: 0,
+        duration: 1,
+        stagger: 0.12,
+        ease: 'power4.out',
+      }, '-=0.4')
+      .to('.hero-desc',  { opacity: 0.65, duration: 0.8 }, '-=0.3')
+      .to('.hero-btn',   { opacity: 1, duration: 0.6 }, '-=0.5')
+      .to('.hero-scroll',{ opacity: 1, duration: 0.6 }, '-=0.4');
+
+    // ── SCROLL REVEALS ──
+    gsap.utils.toArray('.reveal').forEach(el => {
+      gsap.fromTo(el,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1, y: 0,
+          duration: 0.9,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 88%',
+            toggleActions: 'play none none none',
+          }
+        }
+      );
+    });
+
+    // ── NAV HIDE ON SCROLL ──
+    let lastY = 0;
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      navbar.style.transform = y > lastY && y > 100 ? 'translateY(-100%)' : 'translateY(0)';
+      navbar.style.transition = 'transform 0.4s ease';
+      lastY = y;
+    });
+
+    // ── PARALLAX HERO BG TEXT ──
+    gsap.to('.hero-bg-text', {
+      yPercent: 40,
+      ease: 'none',
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+    });
+  </script>
+</body>
+</html>
