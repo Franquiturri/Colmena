@@ -16,11 +16,11 @@
 
   <style>
     :root {
-      --green-dark: #00592B;
-      --green-neon: #1CE585;
-      --green-mid: #007A3D;
-      --off-white: #F0F4EE;
-      --black: #020E07;
+      --green-dark: #3D1508;
+      --green-neon: #F0A020;
+      --green-mid: #8B4010;
+      --off-white: #F5EDD5;
+      --black: #160804;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -72,6 +72,7 @@
       mix-blend-mode: normal;
     }
     .nav-logo {
+      min-width: 220px;
       font-family: 'Space Mono', monospace;
       font-size: 1.25rem;
       font-weight: 700;
@@ -92,7 +93,7 @@
       height: 42px;
       object-fit: contain;
       display: block;
-      filter: brightness(0) saturate(100%) invert(68%) sepia(67%) saturate(462%) hue-rotate(107deg) brightness(107%);
+      filter: brightness(0) saturate(100%) invert(66%) sepia(95%) saturate(800%) hue-rotate(5deg) brightness(102%);
       animation: slowRotate 28s linear infinite;
     }
     @keyframes logoEntrance {
@@ -161,7 +162,7 @@
       width: 110px;
       height: 52px;
       clip-path: polygon(25.62% 1.92%, 74.38% 1.92%, 99.09% 50%, 74.38% 98.08%, 25.62% 98.08%, 0.91% 50%);
-      background-color: rgba(51, 65, 85, 0.38);
+      background-color: rgba(61, 21, 8, 0.38);
       flex-shrink: 0;
       margin-bottom: 0;
     }
@@ -171,7 +172,7 @@
       height: 24px;
       top: -14px;
       left: -22px;
-      color: #334155;
+      color: #3D1508;
       pointer-events: none;
     }
     .boxes-overlay {
@@ -228,11 +229,11 @@
       font-family: 'Space Mono', monospace;
       font-size: clamp(32px, 5.5vw, 88px);
       font-weight: 700;
-      line-height: 0.92;
-      letter-spacing: -0.03em;
+      line-height: 0.88;
+      letter-spacing: -0.04em;
       text-transform: uppercase;
       color: var(--off-white);
-      max-width: 900px;
+      max-width: 95vw;
       overflow: hidden;
     }
     .hero-title-line { display: block; overflow: hidden; }
@@ -379,7 +380,7 @@
     }
     .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
     .stat-card {
-      border: 1px solid rgba(28, 229, 133, 0.2);
+      border: 1px solid rgba(240, 160, 32, 0.2);
       padding: 1.5rem;
     }
     .stat-num {
@@ -410,11 +411,11 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 0;
-      border: 1px solid rgba(28, 229, 133, 0.15);
+      border: 1px solid rgba(240, 160, 32, 0.15);
     }
     .service-card {
       padding: 2.5rem;
-      border-right: 1px solid rgba(28, 229, 133, 0.15);
+      border-right: 1px solid rgba(240, 160, 32, 0.15);
       position: relative;
       overflow: hidden;
       transition: background 0.35s ease;
@@ -479,17 +480,17 @@
     .formatos-list {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      border-top: 1px solid rgba(28, 229, 133, 0.15);
+      border-top: 1px solid rgba(240, 160, 32, 0.15);
     }
     .formato-item {
       padding: 2rem 1.5rem;
-      border-right: 1px solid rgba(28, 229, 133, 0.15);
-      border-bottom: 1px solid rgba(28, 229, 133, 0.15);
+      border-right: 1px solid rgba(240, 160, 32, 0.15);
+      border-bottom: 1px solid rgba(240, 160, 32, 0.15);
       transition: background 0.3s;
       cursor: none;
     }
     .formato-item:last-child { border-right: none; }
-    .formato-item:hover { background: rgba(28, 229, 133, 0.06); }
+    .formato-item:hover { background: rgba(240, 160, 32, 0.06); }
     .formato-icon {
       font-size: 2rem;
       margin-bottom: 1.25rem;
@@ -553,7 +554,7 @@
       display: flex;
       flex-direction: column;
       gap: 0;
-      border-top: 1px solid rgba(28, 229, 133, 0.15);
+      border-top: 1px solid rgba(240, 160, 32, 0.15);
     }
     .step {
       display: grid;
@@ -561,11 +562,11 @@
       gap: 3rem;
       align-items: center;
       padding: 2.5rem 0;
-      border-bottom: 1px solid rgba(28, 229, 133, 0.15);
+      border-bottom: 1px solid rgba(240, 160, 32, 0.15);
       transition: background 0.25s;
       cursor: none;
     }
-    .step:hover { background: rgba(28, 229, 133, 0.04); padding-left: 1rem; }
+    .step:hover { background: rgba(240, 160, 32, 0.04); padding-left: 1rem; }
     .step-num {
       font-family: 'Space Mono', monospace;
       font-size: 0.75rem;
@@ -654,7 +655,7 @@
     footer {
       background: var(--green-dark);
       padding: 4rem 2.5rem 2rem;
-      border-top: 1px solid rgba(28, 229, 133, 0.15);
+      border-top: 1px solid rgba(240, 160, 32, 0.15);
     }
     .footer-top {
       display: flex;
@@ -697,7 +698,7 @@
       justify-content: space-between;
       align-items: center;
       padding-top: 2rem;
-      border-top: 1px solid rgba(28, 229, 133, 0.1);
+      border-top: 1px solid rgba(240, 160, 32, 0.1);
     }
     .footer-copy {
       font-size: 0.75rem;
@@ -754,11 +755,7 @@
 
   <!-- NAV -->
   <nav id="navbar">
-    <a href="#" class="nav-logo">
-      <span class="logo-wrapper">
-        <img src="Assets/Logo TEMP (pedro e ivan).png" alt="Colmena" class="logo-img">
-      </span>
-    </a>
+    <a href="#" class="nav-logo"></a>
     <ul class="nav-links">
       <li><a href="#about">Nosotros</a></li>
       <li><a href="#servicios">Servicios</a></li>
@@ -777,9 +774,10 @@
     <div class="hero-tag">Publicidad en Vía Pública — Argentina</div>
 
     <h1 class="hero-title">
-      <span class="hero-title-line"><span>Tu marca</span></span>
-      <span class="hero-title-line"><span>en el <span class="accent">corazón</span></span></span>
-      <span class="hero-title-line"><span>de la ciudad.</span></span>
+      <span class="hero-title-line"><span>Tu</span></span>
+      <span class="hero-title-line"><span>marca en</span></span>
+      <span class="hero-title-line"><span>la <span class="accent">mente</span></span></span>
+      <span class="hero-title-line"><span>de tu target.</span></span>
     </h1>
 
     <div class="hero-sub">
