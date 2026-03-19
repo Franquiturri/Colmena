@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Colmena — Publicidad en Vía Pública</title>
+  <title>Colmena — Publicidad Digital & Vía Pública</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -165,6 +165,7 @@
       background-color: rgba(61, 21, 8, 0.38);
       flex-shrink: 0;
       margin-bottom: 0;
+      will-change: background-color;
     }
     .box-cell-icon {
       position: absolute;
@@ -298,6 +299,35 @@
       0% { transform: scaleY(0); opacity: 0; }
       50% { transform: scaleY(1); opacity: 1; }
       100% { transform: scaleY(1) translateY(100%); opacity: 0; }
+    }
+
+    /* ── HERO IMAGE ── */
+    .hero-image-wrap {
+      position: absolute;
+      right: 6vw;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 3;
+      pointer-events: none;
+    }
+    .hero-image-wrap img {
+      height: clamp(480px, 72vh, 820px);
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 32px 60px rgba(0,0,0,0.6));
+      animation: floatBee 4s ease-in-out infinite;
+    }
+    @keyframes floatBee {
+      0%   { transform: translateY(0px); }
+      50%  { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+    @media (max-width: 900px) {
+      .hero-image-wrap { right: -2vw; }
+      .hero-image-wrap img { height: clamp(240px, 40vh, 420px); opacity: 0.45; }
+    }
+    @media (max-width: 600px) {
+      .hero-image-wrap { display: none; }
     }
 
     /* ── TICKER ── */
@@ -773,7 +803,7 @@
     <div class="boxes-overlay"></div>
 
 
-    <div class="hero-tag">Publicidad en Vía Pública — Argentina</div>
+    <div class="hero-tag">Performance · Branding · Vía Pública — Argentina</div>
 
     <h1 class="hero-title">
       <span class="hero-title-line"><span>Tu</span></span>
@@ -784,7 +814,7 @@
 
     <div class="hero-sub">
       <p class="hero-desc">
-        Transformamos espacios urbanos en experiencias de marca. Vallas, carteles, mobiliario y pantallas LED que impactan, conectan y convierten.
+Estrategias full funnel que combinan performance digital, branding y presencia en vía pública. Online y en la calle, donde sea que esté tu audiencia.
       </p>
       <a href="#contacto" class="hero-btn">
         Iniciá tu campaña
@@ -792,6 +822,10 @@
           <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
       </a>
+    </div>
+
+    <div class="hero-image-wrap">
+      <img src="Assets/abeja celu.png" alt="Abeja Colmena" />
     </div>
 
     <div class="hero-scroll">
@@ -803,18 +837,22 @@
   <!-- TICKER -->
   <div class="ticker-wrap">
     <div class="ticker-inner">
+      <span>Meta Ads</span><span class="dot">✦</span>
+      <span>Google Ads</span><span class="dot">✦</span>
+      <span>LinkedIn Ads</span><span class="dot">✦</span>
+      <span>Search Ads</span><span class="dot">✦</span>
       <span>Vallas Publicitarias</span><span class="dot">✦</span>
-      <span>Carteles LED</span><span class="dot">✦</span>
-      <span>Mobiliario Urbano</span><span class="dot">✦</span>
-      <span>Pantallas Digitales</span><span class="dot">✦</span>
+      <span>Pantallas LED</span><span class="dot">✦</span>
+      <span>Guerrilla & Afiches</span><span class="dot">✦</span>
       <span>Medianeras</span><span class="dot">✦</span>
-      <span>Refugios de Colectivo</span><span class="dot">✦</span>
+      <span>Meta Ads</span><span class="dot">✦</span>
+      <span>Google Ads</span><span class="dot">✦</span>
+      <span>LinkedIn Ads</span><span class="dot">✦</span>
+      <span>Search Ads</span><span class="dot">✦</span>
       <span>Vallas Publicitarias</span><span class="dot">✦</span>
-      <span>Carteles LED</span><span class="dot">✦</span>
-      <span>Mobiliario Urbano</span><span class="dot">✦</span>
-      <span>Pantallas Digitales</span><span class="dot">✦</span>
+      <span>Pantallas LED</span><span class="dot">✦</span>
+      <span>Guerrilla & Afiches</span><span class="dot">✦</span>
       <span>Medianeras</span><span class="dot">✦</span>
-      <span>Refugios de Colectivo</span><span class="dot">✦</span>
     </div>
   </div>
 
@@ -827,7 +865,7 @@
     </div>
     <div class="about-right">
       <p class="about-text reveal">
-        En Colmena diseñamos, producimos e instalamos soluciones de publicidad exterior que generan impacto real. Trabajamos con marcas que quieren estar donde está la gente.
+        En Colmena diseñamos estrategias full funnel que combinan performance digital, branding y publicidad en vía pública. Trabajamos con marcas que quieren estar donde está la gente — online y en la calle.
       </p>
       <div class="stats-grid">
         <div class="stat-card reveal">
@@ -858,24 +896,24 @@
         <h2 class="section-title reveal">Lo que<br/>hacemos.</h2>
       </div>
       <p class="about-text reveal" style="max-width:280px">
-        Soluciones integrales de comunicación exterior para cada tipo de campaña y presupuesto.
+        Estrategias full funnel que combinan performance digital, branding y presencia en vía pública.
       </p>
     </div>
     <div class="services-grid">
       <div class="service-card reveal">
         <div class="service-num">01</div>
-        <div class="service-name">Planificación<br/>Estratégica</div>
-        <div class="service-desc">Analizamos tu audiencia, zona de influencia y objetivos para armar el plan de medios exterior más efectivo.</div>
+        <div class="service-name">Performance<br/>Digital</div>
+        <div class="service-desc">Campañas en Meta Ads, Google Ads, LinkedIn Ads y Search orientadas a resultados medibles: leads, conversiones y ROI real.</div>
       </div>
       <div class="service-card reveal">
         <div class="service-num">02</div>
-        <div class="service-name">Producción<br/>Gráfica</div>
-        <div class="service-desc">Diseño, impresión y terminaciones de alta calidad para vallas, lonas y viniles con máxima visibilidad.</div>
+        <div class="service-name">Branding<br/>Digital & OOH</div>
+        <div class="service-desc">Construcción de marca en canales digitales y vía pública. Awareness, posicionamiento y reconocimiento a largo plazo.</div>
       </div>
       <div class="service-card reveal">
         <div class="service-num">03</div>
-        <div class="service-name">Gestión &<br/>Monitoreo</div>
-        <div class="service-desc">Instalación, mantenimiento y reporte de rendimiento de cada soporte durante toda la campaña.</div>
+        <div class="service-name">Vía<br/>Pública</div>
+        <div class="service-desc">Vallas, pantallas LED, medianeras, guerrilla, graffitis y afiches. Presencia urbana que no se puede ignorar.</div>
       </div>
     </div>
   </section>
@@ -884,23 +922,38 @@
   <section id="formatos">
     <div class="formatos-intro">
       <div>
-        <p class="section-label reveal">02 — Formatos</p>
-        <h2 class="section-title reveal">Nuestros<br/>soportes.</h2>
+        <p class="section-label reveal">02 — Canales</p>
+        <h2 class="section-title reveal">Digital<br/>& Exterior.</h2>
       </div>
       <p class="about-text reveal" style="max-width:400px; opacity:0.6">
-        Contamos con una amplia red de soportes en puntos estratégicos de las principales ciudades del país.
+        Llegamos a tu audiencia en todos los frentes: desde el scroll hasta la calle, con los canales más efectivos de cada ecosistema.
       </p>
     </div>
     <div class="formatos-list">
       <div class="formato-item reveal">
-        <span class="formato-icon">🪧</span>
-        <div class="formato-name">Vallas</div>
-        <div class="formato-desc">Grandes formatos en rutas, accesos y avenidas principales. Máxima exposición.</div>
+        <span class="formato-icon">📱</span>
+        <div class="formato-name">Meta Ads</div>
+        <div class="formato-desc">Facebook e Instagram. Segmentación precisa y creatividades que detienen el scroll.</div>
       </div>
       <div class="formato-item reveal">
-        <span class="formato-icon">💡</span>
-        <div class="formato-name">Pantallas LED</div>
-        <div class="formato-desc">Displays digitales con contenido dinámico en tiempo real. Alto impacto visual.</div>
+        <span class="formato-icon">🔍</span>
+        <div class="formato-name">Google & Search</div>
+        <div class="formato-desc">Captamos intención de compra con Search, Display y Performance Max.</div>
+      </div>
+      <div class="formato-item reveal">
+        <span class="formato-icon">💼</span>
+        <div class="formato-name">LinkedIn Ads</div>
+        <div class="formato-desc">Alcance B2B con targeting por cargo, industria y empresa. Ideal para marcas que venden a otras empresas.</div>
+      </div>
+      <div class="formato-item reveal">
+        <span class="formato-icon">📊</span>
+        <div class="formato-name">Analítica & Reportes</div>
+        <div class="formato-desc">Medimos todo. Conversiones, CPA, ROAS y atribución multicanal en tiempo real.</div>
+      </div>
+      <div class="formato-item reveal">
+        <span class="formato-icon">🪧</span>
+        <div class="formato-name">Vallas & Pantallas</div>
+        <div class="formato-desc">Grandes formatos estáticos y LED en rutas, accesos y avenidas principales.</div>
       </div>
       <div class="formato-item reveal">
         <span class="formato-icon">🏙️</span>
@@ -908,9 +961,14 @@
         <div class="formato-desc">Superficies de gran tamaño en edificios céntricos. Presencia urbana dominante.</div>
       </div>
       <div class="formato-item reveal">
-        <span class="formato-icon">🚏</span>
-        <div class="formato-name">Refugios</div>
-        <div class="formato-desc">Mobiliario urbano de alto tráfico peatonal. Contacto directo con el consumidor.</div>
+        <span class="formato-icon">🎨</span>
+        <div class="formato-name">Guerrilla & Graffiti</div>
+        <div class="formato-desc">Intervenciones urbanas que sorprenden, generan contenido orgánico y se hacen virales.</div>
+      </div>
+      <div class="formato-item reveal">
+        <span class="formato-icon">📌</span>
+        <div class="formato-name">Afiches & Stickers</div>
+        <div class="formato-desc">Activaciones de bajo costo y alto alcance barrial. Presencia masiva en zonas clave.</div>
       </div>
     </div>
   </section>
@@ -918,21 +976,21 @@
   <!-- MARQUEE -->
   <div class="marquee-section">
     <div class="marquee-track">
-      <span class="marquee-item">Impacto Real</span>
+      <span class="marquee-item">Full Funnel</span>
       <span class="marquee-sep">✦</span>
-      <span class="marquee-item">Ciudad Viva</span>
+      <span class="marquee-item">Performance</span>
       <span class="marquee-sep">✦</span>
-      <span class="marquee-item">Tu Marca Afuera</span>
+      <span class="marquee-item">Branding Digital</span>
       <span class="marquee-sep">✦</span>
-      <span class="marquee-item">24/7 Sin Parar</span>
+      <span class="marquee-item">Vía Pública</span>
       <span class="marquee-sep">✦</span>
-      <span class="marquee-item">Impacto Real</span>
+      <span class="marquee-item">Full Funnel</span>
       <span class="marquee-sep">✦</span>
-      <span class="marquee-item">Ciudad Viva</span>
+      <span class="marquee-item">Performance</span>
       <span class="marquee-sep">✦</span>
-      <span class="marquee-item">Tu Marca Afuera</span>
+      <span class="marquee-item">Branding Digital</span>
       <span class="marquee-sep">✦</span>
-      <span class="marquee-item">24/7 Sin Parar</span>
+      <span class="marquee-item">Vía Pública</span>
       <span class="marquee-sep">✦</span>
     </div>
   </div>
@@ -950,23 +1008,23 @@
       </div>
       <div class="step reveal">
         <span class="step-num">02</span>
-        <span class="step-name">Propuesta</span>
-        <span class="step-desc">Seleccionamos los espacios óptimos y te presentamos un plan de medios con mapas y proyecciones.</span>
+        <span class="step-name">Estrategia</span>
+        <span class="step-desc">Definimos el mix de canales ideal — digital y exterior — con proyecciones de alcance, frecuencia y ROI esperado.</span>
       </div>
       <div class="step reveal">
         <span class="step-num">03</span>
-        <span class="step-name">Producción</span>
-        <span class="step-desc">Gestionamos el diseño final, impresión y preparación de todos los materiales gráficos.</span>
+        <span class="step-name">Creatividad</span>
+        <span class="step-desc">Desarrollamos piezas adaptadas a cada canal: creatividades digitales, gráficas para vía pública e intervenciones urbanas.</span>
       </div>
       <div class="step reveal">
         <span class="step-num">04</span>
-        <span class="step-name">Instalación</span>
-        <span class="step-desc">Nuestro equipo técnico instala y verifica cada soporte con estándares de calidad y seguridad.</span>
+        <span class="step-name">Activación</span>
+        <span class="step-desc">Lanzamos campañas digitales y ejecutamos la instalación de soportes en vía pública con control de calidad total.</span>
       </div>
       <div class="step reveal">
         <span class="step-num">05</span>
-        <span class="step-name">Reporte</span>
-        <span class="step-desc">Seguimiento fotográfico y de rendimiento durante toda la campaña con informes periódicos.</span>
+        <span class="step-name">Optimización</span>
+        <span class="step-desc">Medimos resultados en tiempo real, optimizamos la inversión y entregamos reportes completos de performance.</span>
       </div>
     </div>
   </section>
@@ -977,7 +1035,7 @@
     <div class="cta-content">
       <p class="cta-label reveal">¿Listo para impactar?</p>
       <h2 class="cta-title reveal">
-        Llevá tu marca<br/>a la <span class="neon">ciudad.</span>
+        Llevá tu marca<br/>más <span class="neon">lejos.</span>
       </h2>
       <a href="mailto:hola@colmena.com.ar" class="cta-btn reveal">
         Cotizá tu campaña
@@ -993,7 +1051,7 @@
     <div class="footer-top">
       <div>
         <div class="footer-brand">Colmena<span>🐝</span></div>
-        <div class="footer-tagline">Publicidad en Vía Pública — Argentina</div>
+        <div class="footer-tagline">Publicidad Digital & Vía Pública — Argentina</div>
       </div>
       <div class="footer-nav">
         <a href="#about">Nosotros</a>
@@ -1084,7 +1142,7 @@
       const grid = document.getElementById('boxesGrid');
       if (!grid) return;
 
-      const ROWS = 150, COLS = 100;
+      const ROWS = 70, COLS = 40;
       const colors = [
         'rgb(125,211,252)', 'rgb(249,168,212)', 'rgb(134,239,172)',
         'rgb(253,224,71)',  'rgb(252,165,165)', 'rgb(216,180,254)',
@@ -1104,15 +1162,25 @@
       }
       grid.appendChild(frag);
 
-      // Use elementsFromPoint to pierce through overlay/z-index layers
+      // Throttle with rAF + elementsFromPoint to pierce z-index layers
       let activeCell = null;
+      let rafPending = false;
+      let lastX = 0, lastY = 0;
+
       document.addEventListener('mousemove', e => {
-        const all = document.elementsFromPoint(e.clientX, e.clientY);
-        const cell = all.find(el => el.classList.contains('box-cell')) || null;
-        if (cell === activeCell) return;
-        if (activeCell) activeCell.style.backgroundColor = '';
-        activeCell = cell;
-        if (cell) cell.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        lastX = e.clientX;
+        lastY = e.clientY;
+        if (rafPending) return;
+        rafPending = true;
+        requestAnimationFrame(() => {
+          rafPending = false;
+          const all = document.elementsFromPoint(lastX, lastY);
+          const cell = all.find(el => el.classList.contains('box-cell')) || null;
+          if (cell === activeCell) return;
+          if (activeCell) activeCell.style.backgroundColor = '';
+          activeCell = cell;
+          if (cell) cell.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        });
       });
     })();
   </script>
