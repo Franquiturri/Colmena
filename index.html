@@ -1140,7 +1140,7 @@ Estrategias full funnel que combinan performance digital, branding y presencia e
       <div class="contacto-label">Contacto</div>
       <div class="contacto-title">Hablemos<br>por WhatsApp.</div>
       <form class="contacto-form" onsubmit="enviarWhatsapp(event)">
-        <input type="text" id="contact-nombre" placeholder="Tu nombre" required />
+        <input type="text" id="contact-nombre" placeholder="Tu nombre" />
         <input type="text" id="contact-empresa" placeholder="Empresa (opcional)" />
         <textarea id="contact-mensaje" placeholder="¿En qué te podemos ayudar?"></textarea>
         <button type="submit" class="contacto-btn">
@@ -1293,9 +1293,14 @@ Estrategias full funnel que combinan performance digital, branding y presencia e
       const nombre = document.getElementById('contact-nombre').value.trim();
       const empresa = document.getElementById('contact-empresa').value.trim();
       const mensajePersonalizado = document.getElementById('contact-mensaje').value.trim();
-      let texto = mensajePersonalizado
-        ? `Buenas, me llamo ${nombre}${empresa ? ` de ${empresa}` : ''}.\n\n${mensajePersonalizado}`
-        : `Buenas! Me llamo ${nombre} quiero saber mas de Colmena Publicidad 🐝`;
+      let texto;
+      if (!nombre) {
+        texto = `Buenas! Quiero saber mas de Colmena Publicidad 🐝`;
+      } else if (mensajePersonalizado) {
+        texto = `Buenas, me llamo ${nombre}${empresa ? ` de ${empresa}` : ''}.\n\n${mensajePersonalizado}`;
+      } else {
+        texto = `Buenas! Me llamo ${nombre} quiero saber mas de Colmena Publicidad 🐝`;
+      }
       const url = `https://wa.me/541132601574?text=${encodeURIComponent(texto)}`;
       window.open(url, '_blank');
     }
