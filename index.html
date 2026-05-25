@@ -696,10 +696,9 @@
 
     /* ── FOOTER ── */
     /* CONTACT FORM */
-    #contacto {
-      background: var(--black);
+    #formulario {
+      background: #F0A020;
       padding: 6rem 2.5rem;
-      border-top: 1px solid rgba(240, 160, 32, 0.15);
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 4rem;
@@ -712,9 +711,9 @@
     }
     .contacto-form input,
     .contacto-form textarea {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(240, 160, 32, 0.2);
-      color: var(--off-white);
+      background: rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.2);
+      color: #1a0a00;
       font-family: 'Space Grotesk', sans-serif;
       font-size: 1rem;
       padding: 1rem 1.2rem;
@@ -724,19 +723,19 @@
     }
     .contacto-form input::placeholder,
     .contacto-form textarea::placeholder {
-      color: rgba(255,255,255,0.25);
+      color: rgba(26,10,0,0.45);
     }
     .contacto-form input:focus,
     .contacto-form textarea:focus {
-      border-color: var(--green-neon);
+      border-color: #1a0a00;
     }
     .contacto-form textarea { min-height: 130px; }
     .contacto-btn {
       display: inline-flex;
       align-items: center;
       gap: 0.6rem;
-      background: #25D366;
-      color: #fff;
+      background: #1a0a00;
+      color: #F0A020;
       font-family: 'Space Mono', monospace;
       font-size: 0.85rem;
       font-weight: 700;
@@ -1117,11 +1116,11 @@ Estrategias full funnel que combinan performance digital, branding y presencia e
     </div>
   </section>
 
-  <!-- CONTACTO -->
-  <section id="contacto">
+  <!-- FORMULARIO -->
+  <section id="formulario">
     <div>
-      <p class="section-label reveal">Contacto</p>
-      <h2 class="section-title reveal">Hablemos<br/>por WhatsApp.</h2>
+      <p class="section-label reveal" style="color:#1a0a00">Contacto</p>
+      <h2 class="section-title reveal" style="color:#1a0a00">Hablemos<br/>por WhatsApp.</h2>
     </div>
     <form class="contacto-form reveal" onsubmit="enviarWhatsapp(event)">
       <input type="text" id="contact-nombre" placeholder="Tu nombre" />
@@ -1136,6 +1135,7 @@ Estrategias full funnel que combinan performance digital, branding y presencia e
 
   <!-- FOOTER -->
   <footer>
+
     <div class="footer-top">
       <div>
         <div class="footer-brand">Colmena<span>🐝</span></div>
