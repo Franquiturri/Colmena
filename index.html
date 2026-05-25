@@ -695,6 +695,78 @@
     .cta-btn:hover { transform: scale(1.04); gap: 1.5rem; }
 
     /* ── FOOTER ── */
+    /* CONTACT FORM */
+    #contacto {
+      background: var(--green-dark);
+      padding: 6rem 2.5rem;
+      border-top: 1px solid rgba(240, 160, 32, 0.15);
+    }
+    .contacto-inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .contacto-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--green-neon);
+      margin-bottom: 1.5rem;
+    }
+    .contacto-title {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      line-height: 1.05;
+      color: var(--off-white);
+      margin-bottom: 3rem;
+    }
+    .contacto-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+    .contacto-form input,
+    .contacto-form textarea {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(240, 160, 32, 0.2);
+      color: var(--off-white);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      padding: 1rem 1.2rem;
+      outline: none;
+      transition: border-color 0.2s;
+      resize: none;
+    }
+    .contacto-form input::placeholder,
+    .contacto-form textarea::placeholder {
+      color: rgba(255,255,255,0.25);
+    }
+    .contacto-form input:focus,
+    .contacto-form textarea:focus {
+      border-color: var(--green-neon);
+    }
+    .contacto-form textarea { min-height: 130px; }
+    .contacto-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: #25D366;
+      color: #fff;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 1rem 2rem;
+      border: none;
+      cursor: none;
+      transition: opacity 0.2s;
+      align-self: flex-start;
+    }
+    .contacto-btn:hover { opacity: 0.85; }
+
     footer {
       background: var(--green-dark);
       padding: 4rem 2.5rem 2rem;
@@ -1062,6 +1134,23 @@ Estrategias full funnel que combinan performance digital, branding y presencia e
     </div>
   </section>
 
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="contacto-inner">
+      <div class="contacto-label">Contacto</div>
+      <div class="contacto-title">Hablemos<br>por WhatsApp.</div>
+      <form class="contacto-form" onsubmit="enviarWhatsapp(event)">
+        <input type="text" id="contact-nombre" placeholder="Tu nombre" required />
+        <input type="text" id="contact-empresa" placeholder="Empresa (opcional)" />
+        <textarea id="contact-mensaje" placeholder="¿En qué te podemos ayudar?" required></textarea>
+        <button type="submit" class="contacto-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.857L0 24l6.335-1.652A11.954 11.954 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.366l-.358-.214-3.724.97.998-3.622-.235-.374A9.818 9.818 0 1112 21.818z"/></svg>
+          Enviar por WhatsApp
+        </button>
+      </form>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer>
     <div class="footer-top">
@@ -1199,6 +1288,17 @@ Estrategias full funnel que combinan performance digital, branding y presencia e
         });
       });
     })();
+    function enviarWhatsapp(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('contact-nombre').value.trim();
+      const empresa = document.getElementById('contact-empresa').value.trim();
+      const mensaje = document.getElementById('contact-mensaje').value.trim();
+      let texto = `Hola, soy ${nombre}`;
+      if (empresa) texto += ` de ${empresa}`;
+      texto += `.\n\n${mensaje}`;
+      const url = `https://wa.me/541132601574?text=${encodeURIComponent(texto)}`;
+      window.open(url, '_blank');
+    }
   </script>
 </body>
 </html>
