@@ -816,6 +816,27 @@
     .footer-social {
       display: flex;
       gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    .footer-legal {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.5rem;
+    }
+    .footer-legal a {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--off-white);
+      opacity: 0.4;
+      text-decoration: none;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .footer-legal a:hover,
+    .footer-legal a:focus-visible { opacity: 1; color: var(--green-neon); }
+    @media (max-width: 900px) {
+      .footer-legal { justify-content: center; }
     }
     .footer-social a {
       font-family: 'Space Mono', monospace;
@@ -1148,6 +1169,11 @@ Estrategias full funnel que combinan performance digital, branding y presencia e
       <div>
         <div class="footer-brand">Colmena<span>🐝</span></div>
         <div class="footer-tagline">Publicidad Digital & Vía Pública — Argentina</div>
+        <div class="footer-social">
+          <a href="#">Instagram</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">WhatsApp</a>
+        </div>
       </div>
       <div class="footer-nav">
         <a href="#about">Nosotros</a>
@@ -1159,11 +1185,12 @@ Estrategias full funnel que combinan performance digital, branding y presencia e
       </div>
     </div>
     <div class="footer-bottom">
-      <span class="footer-copy">© 2026 Colmena. Todos los derechos reservados.</span>
-      <div class="footer-social">
-        <a href="#">Instagram</a>
-        <a href="#">LinkedIn</a>
-        <a href="#">WhatsApp</a>
+      <span class="footer-copy">© 2026 Colmena · Buenos Aires, Argentina</span>
+      <div class="footer-legal" role="navigation" aria-label="Legales">
+        <a href="#">Privacidad</a>
+        <a href="#">Términos</a>
+        <a href="#">Cookies</a>
+        <a href="#">Botón de arrepentimiento</a>
       </div>
     </div>
   </footer>
@@ -1232,6 +1259,21 @@ Estrategias full funnel que combinan performance digital, branding y presencia e
       ease: 'none',
       scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
     });
+
+    // ── MOCKUP SLIDE-IN ──
+    gsap.fromTo('.formatos-mockup',
+      { xPercent: 120, opacity: 0 },
+      {
+        xPercent: 0, opacity: 1,
+        duration: 1.2,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '#formatos',
+          start: 'top 80%',
+          toggleActions: 'play none none none',
+        }
+      }
+    );
 
     // ── BACKGROUND BOXES ──
     (function () {
