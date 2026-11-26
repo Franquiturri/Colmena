@@ -108,7 +108,8 @@
       display: flex;
       gap: 2rem;
       list-style: none;
-      margin-left: 6rem;
+      margin-left: auto;
+      margin-right: 3rem;
     }
     .nav-links a {
       font-size: 0.75rem;
@@ -226,6 +227,17 @@
       color: var(--green-neon);
       margin-bottom: 1.5rem;
       opacity: 0;
+    }
+    /* Pantallas grandes: el texto amarillo sube a la altura del menú */
+    @media (min-width: 1241px) {
+      #hero .hero-tag {
+        position: absolute;
+        top: 1.5rem;
+        left: 2.5rem;
+        line-height: 34px;
+        margin: 0;
+        z-index: 101;
+      }
     }
     .hero-title {
       font-family: 'Space Mono', monospace;
